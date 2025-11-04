@@ -3,12 +3,12 @@
   command = "echo 'Unity WebGL build ready'"
 
 # Headers for optimized caching and compression
-# Only apply br encoding to files that actually have .br extension
-# Important: Prevent double compression by Netlify on already compressed .br files
+# IMPORTANT: Unity WebGL loader handles .br decompression automatically
+# Do NOT set Content-Encoding: br here as it causes double decompression
+# which leads to "null function or function signature mismatch" errors
 [[headers]]
   for = "/*.data.br"
   [headers.values]
-    Content-Encoding = "br"
     Content-Type = "application/octet-stream"
     Cache-Control = "public, max-age=31536000, immutable"
     X-Content-Type-Options = "nosniff"
@@ -16,7 +16,6 @@
 [[headers]]
   for = "/*.wasm.br"
   [headers.values]
-    Content-Encoding = "br"
     Content-Type = "application/wasm"
     Cache-Control = "public, max-age=31536000, immutable"
     X-Content-Type-Options = "nosniff"
@@ -24,7 +23,6 @@
 [[headers]]
   for = "/*.js.br"
   [headers.values]
-    Content-Encoding = "br"
     Content-Type = "application/javascript"
     Cache-Control = "public, max-age=31536000, immutable"
     X-Content-Type-Options = "nosniff"
