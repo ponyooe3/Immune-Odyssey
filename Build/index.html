@@ -114,17 +114,29 @@
 
       var script = document.createElement("script");
       script.src = loaderUrl;
+      script.onerror = function() {
+        unityShowBanner('Failed to load Unity loader. Please check your internet connection and try again.', 'error');
+        loadingBar.style.display = "none";
+      };
       script.onload = () => {
-        createUnityInstance(canvas, config, (progress) => {
-          progressBarFull.style.width = 100 * progress + "%";
-        }).then((unityInstance) => {
+        try {
+          createUnityInstance(canvas, config, (progress) => {
+            progressBarFull.style.width = 100 * progress + "%";
+          }).then((unityInstance) => {
+            loadingBar.style.display = "none";
+            fullscreenButton.onclick = () => {
+              unityInstance.SetFullscreen(1);
+            };
+          }).catch((message) => {
+            unityShowBanner('Unity initialization failed: ' + message, 'error');
+            loadingBar.style.display = "none";
+            console.error('Unity initialization error:', message);
+          });
+        } catch (error) {
+          unityShowBanner('Error loading Unity: ' + error.message, 'error');
           loadingBar.style.display = "none";
-          fullscreenButton.onclick = () => {
-            unityInstance.SetFullscreen(1);
-          };
-        }).catch((message) => {
-          alert(message);
-        });
+          console.error('Unity load error:', error);
+        }
       };
       document.body.appendChild(script);
     </script>

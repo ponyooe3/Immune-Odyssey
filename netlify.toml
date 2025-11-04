@@ -4,12 +4,14 @@
 
 # Headers for optimized caching and compression
 # Only apply br encoding to files that actually have .br extension
+# Important: Prevent double compression by Netlify on already compressed .br files
 [[headers]]
   for = "/*.data.br"
   [headers.values]
     Content-Encoding = "br"
     Content-Type = "application/octet-stream"
     Cache-Control = "public, max-age=31536000, immutable"
+    X-Content-Type-Options = "nosniff"
 
 [[headers]]
   for = "/*.wasm.br"
@@ -17,6 +19,7 @@
     Content-Encoding = "br"
     Content-Type = "application/wasm"
     Cache-Control = "public, max-age=31536000, immutable"
+    X-Content-Type-Options = "nosniff"
 
 [[headers]]
   for = "/*.js.br"
@@ -24,6 +27,7 @@
     Content-Encoding = "br"
     Content-Type = "application/javascript"
     Cache-Control = "public, max-age=31536000, immutable"
+    X-Content-Type-Options = "nosniff"
 
 [[headers]]
   for = "/*.js"
