@@ -7,9 +7,14 @@
     <title>Unity WebGL Player | Immune Odyssey</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
-    <!-- Preload critical resources for faster loading -->
-    <link rel="preload" href="ImmuneOdysey.loader.js" as="script" crossorigin="anonymous">
-    <link rel="preload" href="ImmuneOdysey.framework.js.br" as="script" crossorigin="anonymous" type="application/javascript">
+    <!-- Optimize loading: Preload critical resources with high priority -->
+    <link rel="preload" href="ImmuneOdysey.loader.js" as="script" crossorigin="anonymous" fetchpriority="high">
+    <link rel="preload" href="ImmuneOdysey.framework.js.br" as="script" crossorigin="anonymous" fetchpriority="high">
+    <!-- Prefetch large files for parallel download -->
+    <link rel="prefetch" href="ImmuneOdysey.data.br" as="fetch" crossorigin="anonymous">
+    <link rel="prefetch" href="ImmuneOdysey.wasm.br" as="fetch" crossorigin="anonymous">
+    <!-- DNS prefetch for faster connection -->
+    <link rel="dns-prefetch" href="//netlify.app">
   </head>
   <body>
     <div id="unity-container" class="unity-desktop">
@@ -19,6 +24,7 @@
         <div id="unity-progress-bar-empty">
           <div id="unity-progress-bar-full"></div>
         </div>
+        <div id="unity-loading-text" style="text-align: center; color: white; margin-top: 10px; font-family: Arial, sans-serif;">Loading game assets...</div>
       </div>
       <div id="unity-warning"> </div>
       <div id="unity-footer">
@@ -34,6 +40,23 @@
       var progressBarFull = document.querySelector("#unity-progress-bar-full");
       var fullscreenButton = document.querySelector("#unity-fullscreen-button");
       var warningBanner = document.querySelector("#unity-warning");
+      var loadingText = document.querySelector("#unity-loading-text");
+      
+      // Update loading text based on progress
+      function updateLoadingText(progress) {
+        if (!loadingText) return;
+        if (progress < 0.1) {
+          loadingText.textContent = "Initializing Unity engine...";
+        } else if (progress < 0.3) {
+          loadingText.textContent = "Loading game framework...";
+        } else if (progress < 0.6) {
+          loadingText.textContent = "Downloading game data...";
+        } else if (progress < 0.9) {
+          loadingText.textContent = "Preparing game assets...";
+        } else {
+          loadingText.textContent = "Almost ready...";
+        }
+      }
 
       // Shows a temporary message banner/ribbon for a few seconds, or
       // a permanent error message on top of the canvas if type=='error'.
@@ -122,6 +145,7 @@
         try {
           createUnityInstance(canvas, config, (progress) => {
             progressBarFull.style.width = 100 * progress + "%";
+            updateLoadingText(progress);
           }).then((unityInstance) => {
             loadingBar.style.display = "none";
             fullscreenButton.onclick = () => {
