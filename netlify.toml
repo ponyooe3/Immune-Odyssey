@@ -3,12 +3,12 @@
   command = "echo 'Unity WebGL build ready'"
 
 # Headers for optimized caching and compression
-# IMPORTANT: Unity WebGL loader handles .br decompression automatically
-# Do NOT set Content-Encoding: br here as it causes double decompression
-# which leads to "null function or function signature mismatch" errors
+# Unity WebGL loader requires Content-Encoding: br for .br files
+# Browser will decompress automatically when this header is present
 [[headers]]
   for = "/*.data.br"
   [headers.values]
+    Content-Encoding = "br"
     Content-Type = "application/octet-stream"
     Cache-Control = "public, max-age=31536000, immutable"
     X-Content-Type-Options = "nosniff"
@@ -16,6 +16,7 @@
 [[headers]]
   for = "/*.wasm.br"
   [headers.values]
+    Content-Encoding = "br"
     Content-Type = "application/wasm"
     Cache-Control = "public, max-age=31536000, immutable"
     X-Content-Type-Options = "nosniff"
@@ -23,6 +24,7 @@
 [[headers]]
   for = "/*.js.br"
   [headers.values]
+    Content-Encoding = "br"
     Content-Type = "application/javascript"
     Cache-Control = "public, max-age=31536000, immutable"
     X-Content-Type-Options = "nosniff"
