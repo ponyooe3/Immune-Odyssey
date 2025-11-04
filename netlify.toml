@@ -2,6 +2,12 @@
   publish = "."
   command = "echo 'Unity WebGL build ready'"
 
+# Redirects for SPA routing - all routes should serve index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
 # Headers for optimized caching and compression
 # Unity WebGL loader requires Content-Encoding: br for .br files
 # Browser will decompress automatically when this header is present
