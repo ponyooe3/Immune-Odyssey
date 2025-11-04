@@ -3,9 +3,13 @@
   <head>
     <meta charset="utf-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Unity WebGL Player | Immune Odyssey</title>
     <link rel="shortcut icon" href="TemplateData/favicon.ico">
     <link rel="stylesheet" href="TemplateData/style.css">
+    <!-- Preload critical resources for faster loading -->
+    <link rel="preload" href="BUILD.loader.js" as="script" crossorigin="anonymous">
+    <link rel="preload" href="BUILD.framework.js.br" as="script" crossorigin="anonymous" type="application/javascript">
   </head>
   <body>
     <div id="unity-container" class="unity-desktop">
