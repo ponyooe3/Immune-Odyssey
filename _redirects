@@ -1,3 +1,2 @@
-# Redirect all routes to index.html for SPA routing
-# Exclude actual files (they will be served directly)
+/    /index.html   200
 /*    /index.html   200
