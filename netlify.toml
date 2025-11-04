@@ -22,23 +22,7 @@
     X-Content-Type-Options = "nosniff"
 
 [[headers]]
-  for = "/Build/*.data.br"
-  [headers.values]
-    Content-Encoding = "br"
-    Content-Type = "application/octet-stream"
-    Cache-Control = "public, max-age=31536000, immutable"
-    X-Content-Type-Options = "nosniff"
-
-[[headers]]
   for = "/*.wasm.br"
-  [headers.values]
-    Content-Encoding = "br"
-    Content-Type = "application/wasm"
-    Cache-Control = "public, max-age=31536000, immutable"
-    X-Content-Type-Options = "nosniff"
-
-[[headers]]
-  for = "/Build/*.wasm.br"
   [headers.values]
     Content-Encoding = "br"
     Content-Type = "application/wasm"
@@ -54,21 +38,7 @@
     X-Content-Type-Options = "nosniff"
 
 [[headers]]
-  for = "/Build/*.js.br"
-  [headers.values]
-    Content-Encoding = "br"
-    Content-Type = "application/javascript"
-    Cache-Control = "public, max-age=31536000, immutable"
-    X-Content-Type-Options = "nosniff"
-
-[[headers]]
   for = "/*.js"
-  [headers.values]
-    Content-Type = "application/javascript"
-    Cache-Control = "public, max-age=31536000, immutable"
-
-[[headers]]
-  for = "/Build/*.js"
   [headers.values]
     Content-Type = "application/javascript"
     Cache-Control = "public, max-age=31536000, immutable"
